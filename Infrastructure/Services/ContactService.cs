@@ -20,29 +20,60 @@ public class ContactService : IContactService
         filePath = _filePath;
     }
 
-    public Task AddContactAsync(Contact contact)
+    public async Task<IEnumerable<Contact>> GetAllContactsAsync()
     {
-        throw new NotImplementedException();
+        if (!File.Exists(filePath))
+        {
+            Console.WriteLine("found file", "sfsff");
+            Console.WriteLine(filePath);
+            return new List<Contact>();
+        }
+
+        var json = await File.ReadAllTextAsync(filePath);
+        return JsonConvert.DeserializeObject<List<Contact>>(json) ?? new List<Contact>();
     }
 
-    public Task DeleteContactAsync(int id)
+    public async Task<Contact> GetContactByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var contacts = await GetAllContactsAsync();
+        return contacts.FirstOrDefault(c => c.Id == id);
     }
 
-    public Task<IEnumerable<Contact>> GetAllContactsAsync()
+    public async Task AddContactAsync(Contact contact)
     {
-        throw new NotImplementedException();
+        var contacts = (await GetAllContactsAsync()).ToList();
+        contact.Id = contacts.Any() ? contacts.Max(c => c.Id) + 1 : 1;
+        contacts.Add(contact);
+
+        var json = JsonConvert.SerializeObject(contacts);
+        await File.WriteAllTextAsync(filePath, json);
     }
 
-    public Task<Contact> GetContactByIdAsync(int id)
+    public async Task UpdateContactAsync(Contact contact)
     {
-        throw new NotImplementedException();
+        var contacts = (await GetAllContactsAsync()).ToList();
+        var existingContact = contacts.FirstOrDefault(c => c.Id == contact.Id);
+        if (existingContact != null)
+        {
+            existingContact.FirstName = contact.FirstName;
+            existingContact.LastName = contact.LastName;
+            existingContact.Email = contact.Email;
+
+            var json = JsonConvert.SerializeObject(contacts);
+            await File.WriteAllTextAsync(filePath, json);
+        }
     }
 
-    public Task UpdateContactAsync(Contact contact)
+    public async Task DeleteContactAsync(int id)
     {
-        throw new NotImplementedException();
+        var contacts = (await GetAllContactsAsync()).ToList();
+        var contactToDelete = contacts.FirstOrDefault(c => c.Id == id);
+        if (contactToDelete != null)
+        {
+            contacts.Remove(contactToDelete);
+            var json = JsonConvert.SerializeObject(contacts);
+            await File.WriteAllTextAsync(filePath, json);
+        }
     }
 }
 

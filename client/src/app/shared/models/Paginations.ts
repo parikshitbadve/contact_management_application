@@ -1,6 +1,8 @@
-export interface Pagination<T> {
+import { Contact } from './Contact';
+
+export interface Pagination {
   pageIndex: number;
   pageSize: number;
   count: number;
-  data: T;
+  data: Contact[];
 }

@@ -1,11 +1,24 @@
 <div class="m-4">
   <h2 class="m-2 text-2xl font-semibold text-blue-900">Contacts List</h2>
   <div class="m-5">
+    <div class="m-0 flex items-center justify-between">
     <button mat-stroked-button class="custom-create-button">
       <mat-icon class="icon-white">add_box</mat-icon> New Contact
     </button>
-  
-  <div class="my-4 p-4 relative overflow-x-auto shadow-md sm:rounded-lg">
+  <mat-paginator
+  (page)="handlePageEvent($event)"
+  [length]="pagination?.count"
+  [pageSize]="pageSize"
+  [showFirstLastButtons]="true"
+  [pageSizeOptions]="pageSizeOptions"
+  [pageIndex]="pageIndex"
+  aria-label="Select Page Number"
+ style="background-color: transparent;"
+  >
+</mat-paginator>
+</div>
+
+  <div class="my-0 p-2 relative overflow-x-auto shadow-md sm:rounded-lg">
     <table
       class="w-full text-sm text-left rtl:text-right text-black dark:text-white"
     >

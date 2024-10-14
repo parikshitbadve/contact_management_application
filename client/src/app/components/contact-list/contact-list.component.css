@@ -44,3 +44,25 @@
     color: white !important; 
     margin-right: 8px; 
   }
+
+  /* .custom-paginator {
+    @apply flex items-center space-x-2 p-2 rounded-md shadow-md; 
+    background: transparent; 
+    border: none;
+  }
+  
+  .custom-paginator .mat-paginator-range-label {
+    @apply text-sm font-medium text-gray-700;
+  }
+  
+  .custom-paginator .mat-button {
+    @apply text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition duration-150 ease-in-out;
+  }
+  
+  .custom-paginator .mat-button:disabled {
+    @apply text-gray-400 cursor-not-allowed;
+  }
+  
+  .custom-paginator .mat-icon {
+    @apply text-gray-500;
+  } */

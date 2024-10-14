@@ -21,12 +21,41 @@ namespace API.Controllers
         /// </summary>
         /// <returns>Returns a list of all contacts in the system.</returns>
         [HttpGet]
-        public async Task<IActionResult> GetAllContacts()
+        public async Task<IActionResult> GetAllContacts(
+             [FromQuery] int pageIndex = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string searchText = ""
+        )
         {
             // Calls the service to retrieve all contacts.
             var contacts = await _contactService.GetAllContactsAsync();
+
+            // Apply search logic if a searchTerm is provided
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                searchText = searchText.ToLower();
+                contacts = contacts.Where(c =>
+                    c.FirstName.ToLower().Contains(searchText) ||
+                    c.LastName.ToLower().Contains(searchText) ||
+                    c.Email.ToLower().Contains(searchText))
+                    .ToList();
+            }
+
+            // Calculate the total number of filtered contacts
+            var count = contacts.Count();
+
+            // Apply pagination
+            var pagedData = contacts
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList(); ;
+
+            Console.WriteLine("count", count);
+            Console.WriteLine($"Number of contacts in paged data: {pagedData.Count}");
+            // Create a paginated response
+            var paginatedResponse = new Pagination(pageIndex, pageSize, count, pagedData);
             // Returns the contacts with status 200 (OK).
-            return Ok(contacts);
+            return Ok(paginatedResponse);
         }
 
         /// <summary>
@@ -119,6 +148,7 @@ namespace API.Controllers
             return NoContent();
         }
     }
+
 
 }
 

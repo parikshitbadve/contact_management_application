@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { Contact } from '../../shared/models/Contact';
+import { Pagination } from '../../shared/models/Paginations';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,29 @@ export class ContactService {
 
   constructor(private http: HttpClient) {}
 
-  getContacts(): Observable<Contact[]> {
-    return this.http.get<Contact[]>(this.apiUrl);
+  /**
+   * Fetches all contacts with pagination and optional search.
+   *
+   * @param pageIndex - The index of the page to fetch (1-based).
+   * @param pageSize - The number of contacts per page.
+   * @param searchText - The search text to filter contacts by first name, last name, or email.
+   * @returns An observable of the pagination object containing contacts.
+   */
+
+  getContacts(
+    pageIndex: number,
+    pageSize: number,
+    searchText: string
+  ): Observable<Pagination> {
+    let params = new HttpParams()
+      .set('pageIndex', pageIndex.toString())
+      .set('pageSize', pageSize.toString());
+
+    // If search text is provided, add it to the query parameters
+    if (searchText) {
+      params = params.set('searchText', searchText);
+    }
+    return this.http.get<Pagination>(this.apiUrl, { params });
   }
 
   getContactById(id: number): Observable<Contact> {

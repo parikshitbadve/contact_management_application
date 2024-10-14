@@ -1,0 +1,59 @@
+<div class="m-4">
+  <h2 class="m-2 text-2xl font-semibold text-blue-900">Contacts List</h2>
+  <div class="m-5">
+    <button mat-stroked-button class="custom-create-button">
+      <mat-icon class="icon-white">add_box</mat-icon> New Contact
+    </button>
+  
+  <div class="my-4 p-4 relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table
+      class="w-full text-sm text-left rtl:text-right text-black dark:text-white"
+    >
+      <thead class="text-xs text-black uppercase bg-gray-200 dark:text-black">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-blue-900">Id</th>
+          <th scope="col" class="px-6 py-3 text-blue-900">First Name</th>
+          <th scope="col" class="px-6 py-3 text-blue-900">Last Name</th>
+          <th scope="col" class="px-6 py-3 text-blue-900">Email</th>
+          <th scope="col" class="px-6 py-3 text-blue-900">Edit</th>
+          <th scope="col" class="px-6 py-3 text-blue-900">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+       
+        @for (contact of contacts; track contact.id){
+        <tr class="bg-white border-b border-gray-200">
+          <th
+            scope="row"
+            class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black"
+          >
+            {{ contact.id }}
+          </th>
+          <td class="px-6 py-4">
+            {{ contact.firstName }}
+          </td>
+          <td class="px-6 py-4">
+            {{ contact.lastName }}
+          </td>
+          <td class="px-6 py-4">
+            {{ contact.email }}
+          </td>
+
+          <td class="px-0 py-4">
+           
+            <button mat-stroked-button class="custom-edit-button">
+              <mat-icon class="icon-white">edit</mat-icon>Edit
+            </button>
+          </td>
+          <td class="px-0 py-4">
+            <button mat-stroked-button class="custom-delete-button">
+              <mat-icon class="icon-white">delete</mat-icon>Delete
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>

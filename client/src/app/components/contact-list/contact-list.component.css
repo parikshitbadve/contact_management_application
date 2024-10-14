@@ -1,0 +1,46 @@
+.custom-delete-button {
+    background-color: #ef4444 !important;  /* Tailwind's red-500 color */
+  color: white !important; 
+  border-color: #ef4444 !important; 
+  border-radius: 5pt;
+  align-items: center;
+  }
+  
+  .custom-delete-button:hover {
+    background-color: #dc2626 !important; /* Tailwind's red-600 color for hover effect */
+    border-color: #dc2626 !important; 
+  }
+
+  .custom-edit-button {
+    background-color: #3b82f6 !important; /* Tailwind's blue-500 color */
+    color: white !important; 
+    border-color: #3b82f6 !important; 
+    border-radius: 5pt;
+  
+    display: flex; 
+    align-items: center;
+  }
+  
+  .custom-edit-button:hover {
+    background-color: #2563eb !important; /* Tailwind's blue-600 color for hover effect */
+    border-color: #2563eb !important; 
+  }
+
+  .custom-create-button {
+    background-color: #22c55e !important; /* Tailwind's green-500 color */
+    color: white !important; 
+    border-color: #22c55e !important; 
+    display: flex; 
+    align-items: center;
+    border-radius: 5pt;
+  }
+  
+  .custom-create-button:hover {
+    background-color: #16a34a !important; 
+    border-color: #16a34a !important;
+  }
+  
+  .icon-white {
+    color: white !important; 
+    margin-right: 8px; 
+  }

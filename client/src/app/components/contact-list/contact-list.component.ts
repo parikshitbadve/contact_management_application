@@ -38,10 +38,11 @@ export class ContactListComponent {
       .getContacts(this.pageIndex, this.pageSize, this.searchText)
       .subscribe({
         next: (response) => {
-          this.contacts = response.data;
-          this.pagination = response;
+          this.contacts = response.data.data;
+          console.log('shyam', this.contacts);
+          this.pagination = response.data;
         },
-        error: (error) => console.log(error),
+        error: (error) => this.snack.error(error.statusText),
       });
   }
 
@@ -68,7 +69,7 @@ export class ContactListComponent {
             this.snack.success('Contact deleted successfully!');
             this.searchText =
               this.searchText !== '' ? (this.searchText = '') : this.searchText;
-            // Optionally refresh the contact list or remove the contact from local array
+            this.pageIndex = 1;
             this.loadContacts();
           },
           error: () => {

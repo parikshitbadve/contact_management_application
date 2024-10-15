@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { Contact } from '../../shared/models/Contact';
-import { Pagination } from '../../shared/models/Paginations';
+import { Contact, IContactDetailResponse } from '../../shared/models/Contact';
+import { IContactResponse, Pagination } from '../../shared/models/Paginations';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,7 @@ export class ContactService {
     pageIndex: number,
     pageSize: number,
     searchText: string
-  ): Observable<Pagination> {
+  ): Observable<IContactResponse> {
     let params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
@@ -35,11 +35,11 @@ export class ContactService {
     if (searchText) {
       params = params.set('searchText', searchText);
     }
-    return this.http.get<Pagination>(this.apiUrl, { params });
+    return this.http.get<IContactResponse>(this.apiUrl, { params });
   }
 
-  getContactById(id: number): Observable<Contact> {
-    return this.http.get<Contact>(`${this.apiUrl}/${id}`);
+  getContactById(id: number): Observable<IContactDetailResponse> {
+    return this.http.get<IContactDetailResponse>(`${this.apiUrl}/${id}`);
   }
 
   createContact(contact: Contact): Observable<Contact> {

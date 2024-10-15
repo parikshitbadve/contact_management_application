@@ -17,20 +17,18 @@ namespace API.Controllers
 
         /// <summary>
         /// GET: api/contact
-        /// Retrieves all contacts.
+        /// Retrieves all contacts with optional pagination and search.
         /// </summary>
         /// <returns>Returns a list of all contacts in the system.</returns>
         [HttpGet]
         public async Task<IActionResult> GetAllContacts(
-             [FromQuery] int pageIndex = 1,
+            [FromQuery] int pageIndex = 1,
             [FromQuery] int pageSize = 10,
             [FromQuery] string searchText = ""
         )
         {
-            // Calls the service to retrieve all contacts.
             var contacts = await _contactService.GetAllContactsAsync();
 
-            // Apply search logic if a searchTerm is provided
             if (!string.IsNullOrEmpty(searchText))
             {
                 searchText = searchText.ToLower();
@@ -41,115 +39,102 @@ namespace API.Controllers
                     .ToList();
             }
 
-            // Calculate the total number of filtered contacts
             var count = contacts.Count();
-
-            // Apply pagination
             var pagedData = contacts
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
-                .ToList(); ;
+                .ToList();
 
-            Console.WriteLine("count", count);
-            Console.WriteLine($"Number of contacts in paged data: {pagedData.Count}");
-            // Create a paginated response
             var paginatedResponse = new Pagination(pageIndex, pageSize, count, pagedData);
-            // Returns the contacts with status 200 (OK).
-            return Ok(paginatedResponse);
+
+            // Meaningful response message
+            if (!pagedData.Any())
+            {
+                return NotFound(new { message = "No contacts found." });
+            }
+
+            return Ok(new { message = "Contacts retrieved successfully.", data = paginatedResponse });
         }
 
         /// <summary>
         /// GET: api/contact/{id}
         /// Retrieves a single contact by their ID.
         /// </summary>
-        /// <param name="id">The unique ID of the contact.</param>
-        /// <returns>Returns the contact if found, otherwise returns a 404 (Not Found).</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetContactById(int id)
         {
-            // Calls the service to retrieve a specific contact by ID.
             var contact = await _contactService.GetContactByIdAsync(id);
 
-            // If no contact is found, return a 404 (Not Found).
             if (contact == null)
-                return NotFound();
+            {
+                return NotFound(new { message = $"Contact with ID {id} not found." });
+            }
 
-            // Returns the found contact with status 200 (OK).
-            return Ok(contact);
+            return Ok(new { message = "Contact retrieved successfully.", data = contact });
         }
 
         /// <summary>
         /// POST: api/contact
         /// Adds a new contact.
         /// </summary>
-        /// <param name="contact">The contact object to be added.</param>
-        /// <returns>Returns the newly created contact with a 201 (Created) status.</returns>
         [HttpPost]
         public async Task<IActionResult> AddContact([FromBody] Contact contact)
         {
-            // Checks if the incoming contact model is valid.
             if (!ModelState.IsValid)
             {
-                // If the model is invalid, returns a 400 (Bad Request) with validation errors.
-                return BadRequest(ModelState);
+                return BadRequest(new { message = "Invalid contact data.", errors = ModelState });
             }
 
-            // Calls the service to add the new contact.
             await _contactService.AddContactAsync(contact);
 
-            // Returns a 201 (Created) with the location of the newly created contact.
-            return CreatedAtAction(nameof(GetContactById), new { id = contact.Id }, contact);
+            return CreatedAtAction(nameof(GetContactById), new { id = contact.Id },
+                new { message = "Contact created successfully.", data = contact });
         }
 
         /// <summary>
         /// PUT: api/contact/{id}
         /// Updates an existing contact.
         /// </summary>
-        /// <param name="id">The ID of the contact to be updated (must match the contact ID in the body).</param>
-        /// <param name="contact">The updated contact object.</param>
-        /// <returns>Returns 204 (No Content) on successful update, 400 (Bad Request) on error.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateContact(int id, [FromBody] Contact contact)
         {
-            // Ensures the ID in the URL matches the ID in the request body.
             if (id != contact.Id)
             {
-                // If the IDs don't match, returns a 400 (Bad Request).
-                return BadRequest("ID in URL does not match ID in the request body.");
+                return BadRequest(new { message = "ID in URL does not match ID in the request body." });
             }
 
-            // Checks if the incoming contact model is valid.
             if (!ModelState.IsValid)
             {
-                // If the model is invalid, returns a 400 (Bad Request) with validation errors.
-                return BadRequest(ModelState);
+                return BadRequest(new { message = "Invalid contact data.", errors = ModelState });
             }
 
-            // Calls the service to update the existing contact.
+            var existingContact = await _contactService.GetContactByIdAsync(id);
+            if (existingContact == null)
+            {
+                return NotFound(new { message = $"Contact with ID {id} not found." });
+            }
+
             await _contactService.UpdateContactAsync(contact);
 
-            // Returns a 204 (No Content) as the contact has been successfully updated.
-            return NoContent();
+            return Ok(new { message = "Contact updated successfully." });
         }
 
         /// <summary>
         /// DELETE: api/contact/{id}
         /// Deletes an existing contact by their ID.
         /// </summary>
-        /// <param name="id">The ID of the contact to delete.</param>
-        /// <returns>Returns 204 (No Content) on successful deletion.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContact(int id)
         {
-            // Calls the service to delete the contact by ID.
+            var existingContact = await _contactService.GetContactByIdAsync(id);
+            if (existingContact == null)
+            {
+                return NotFound(new { message = $"Contact with ID {id} not found." });
+            }
+
             await _contactService.DeleteContactAsync(id);
 
-            // Returns a 204 (No Content) after successful deletion.
-            return NoContent();
+            return Ok(new { message = $"Contact with ID {id} deleted successfully." });
         }
     }
-
-
 }
-
-

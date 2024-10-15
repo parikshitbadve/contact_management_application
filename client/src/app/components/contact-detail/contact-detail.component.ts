@@ -65,17 +65,15 @@ export class ContactDetailComponent {
       }
       this.contactService.getContactById(+id).subscribe({
         next: (response) => {
-          this.contact = response;
+          this.contact = response.data;
           this.addUpdateContact.patchValue({
-            id: response.id,
-            firstName: response.firstName,
-            lastName: response.lastName,
-            email: response.email,
+            id: response.data.id,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            email: response.data.email,
           });
         },
-        error: () => {
-          this.router.navigate(['/not-found']);
-        },
+        error: (error) => this.snack.error(error.searchText),
       });
     }
   }

@@ -4,3 +4,8 @@ export type Contact = {
   lastName: string;
   email: string;
 };
+
+export type IContactDetailResponse = {
+  message: string;
+  data: Contact;
+};

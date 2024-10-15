@@ -6,3 +6,8 @@ export interface Pagination {
   count: number;
   data: Contact[];
 }
+
+export interface IContactResponse {
+  message: string;
+  data: Pagination;
+}

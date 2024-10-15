@@ -1,48 +1,115 @@
-Overview
-This is a Contact Management API built using .NET 8.0. It allows users to perform CRUD (Create, Read, Update, Delete) operations on contact records. 
-The API uses a layered architecture, with an API project, a CORE project for business logic, and an Infrastructure project for data access.
 
-Features:
-Centralized error handling middleware for consistent error responses.
-Dependency Injection to manage services.
-CRUD endpoints for managing contacts (GET, POST, PUT, DELETE).
-Asynchronous service methods for better scalability.
-Table of Contents
-Installation
-Project Structure
-Endpoints
-Error Handling
-Contributing
-License
+# Contacts Management Application
 
-Installation
-Prerequisites:
-.NET SDK 8.0
-Visual Studio Code or any other preferred IDE.
-Swagger is implimented but you can use Postman or any other tool to test the API.
+## Objective
+Develop a full-stack application using **Angular** and **.NET Core** to manage contact information.It allows users to perform **CRUD** (Create, Read, Update, Delete) operations on contact records
 
-Steps:
 
-1) Clone the Repository:
-   git clone https://github.com/parikshitbadve/contact_management_application.git
-   cd contact-management-api
+## Specifications
 
-2) Restore Dependencies:
-    dotnet restore
-   
-3) Build the Solution:
-  dotnet build
+### Frontend Specifications
+- **Framework**: Angular (Version 18.0.1)
+- **Styling**: Tailwind CSS (Latest stable version)
+- **State Management**: RxJS (Latest compatible version with Angular 18)
+- **Forms**: Implement form handling using Angular Reactive Forms.
+- **Component Communication**: Utilize `@Input()` and `@Output()` decorators for component interactions.
 
-4) Run the Application:
-   dotnet run --project Api
+### Backend Specifications
+- **Framework**: .NET Core (Version 8.0)
+- **Data Storage**: Utilize a local JSON file as a mock database.
+- **Error Handling**: Implement global error handling and return appropriate error responses to the frontend.
 
-This will start the API project, and you should be able to access it at http://localhost:5000 or the default port set by .NET.
+## Functional Requirements
+### CRUD Operations
+- **Create, Read, Update, and Delete** contacts.
+- Implemented additional features such as contact **search, sorting, and pagination**.
 
-Project Structure
-The project is structured into three layers:
+### Validation
+- Implement validation for each field:
+  - IDs must be unique.
+  - Emails should be in the correct format.
+  - First and Last names are required fields.
 
-API: Handles incoming HTTP requests and returns responses.
-CORE: Contains business logic, service interfaces, and models.
-Infrastructure: Handles data access and interacts with external data sources (e.g., files or databases).
-   
-    
+### Data Model
+- **Id**: Auto-incrementing integer
+- **FirstName**: String, required
+- **LastName**: String, required
+- **Email**: String, required, must be a valid email format
+
+### Performance Considerations
+The application is designed to scale with a large number of contacts by using:
+- **Asynchronous operations**: This improves responsiveness when interacting with the JSON file.
+- **Efficient State Management**: Using RxJS allows handling large data sets in Angular.
+- **Pagination and Filtering**: Reduces the load on the frontend by fetching only the data needed for display.
+
+## Testing
+### Unit Tests (Optional)
+- Write unit tests for both frontend and backend logic to ensure code quality and functionality.
+
+### Integration Tests (Optional)
+- Write integration tests to cover the main application workflows, ensuring the frontend and backend work seamlessly together.
+
+## Documentation
+### Setup Instructions
+
+#### Prerequisites
+- **Node.js** (for Angular)
+-- **.NET SDK 8.0**
+- **Visual Studio Code** or any other preferred IDE.
+- **Swagger** is implemented for API documentation, but you can also use **Postman** or any other tool to test the API.
+
+### Backend Setup
+1. **Clone the Repository:**
+   ```bash
+    git clone https://github.com/parikshitbadve/contact_management_application.git
+   cd contact-management-app/backend
+   ```
+
+2. **Restore Dependencies:**
+   ```bash
+   dotnet restore
+   ```
+
+3. **Build the Solution:**
+   ```bash
+   dotnet build
+   ```
+
+4. **Run the Application:**
+   ```bash
+   dotnet run
+   ```
+   The API will be available at `http://localhost:5000` or the default port set by .NET.
+
+### Frontend Setup
+1. **Navigate to the Frontend Folder:**
+   ```bash
+   cd contact-management-application/client
+   ```
+
+2. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Run the Angular Application:**
+   ```bash
+   ng serve
+   ```
+   The application will be available at `http://localhost:4200`.
+
+### Design Decisions
+- **Layered Architecture**: Separates concerns and makes the application more maintainable and scalable.
+- **Tailwind CSS**: Chosen for its flexibility and rapid styling capabilities, making it easy to style components.
+
+
+## Coding Standards
+- Adhere to the recommended coding standards for both Angular and C#.
+- Write clean, maintainable, and well-documented code.
+- Added necessary instructions for better understnding.
+
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+

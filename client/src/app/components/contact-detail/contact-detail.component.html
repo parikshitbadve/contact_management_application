@@ -1,0 +1,19 @@
+<mat-card class="max-w-lg mx-auto mt-10 p-8 border rounded-lg shadow-lg bg-white">
+    <form [formGroup]="addUpdateContact" (ngSubmit)="handleSubmitContact()">
+        <div class="text-center mb-6">
+            <h2 class="text-3xl font-semibold mb-5 bg-blend-color-dodge text-blue-900">{{ (addUpdateContact && addUpdateContact.get('id')?.value!==0) ? 'Edit Contact' : 'Add Contact' }}</h2>
+        </div>
+        <app-text-input label="First Name" formControlName="firstName"/>
+        <app-text-input label="Last Name" formControlName="lastName"/>
+        <app-text-input label="Email Id" formControlName="email" type="email"/>
+        @if(validationErrors){
+            <div class="mb-3 p-4 bg-red-100 text-red-600 ">
+                <ul class="list-disc px-3">
+                    {{validationErrors}}
+                </ul>
+            </div>
+        }
+        <button [disabled]="addUpdateContact.invalid || validationErrors!==undefined" mat-stroked-button  type="submit" class="custom-submit-button w-full py-2">Submit</button>
+    </form>
+
+</mat-card>

@@ -1,0 +1,8 @@
+<div class="container mt-5 p-4 bg-gray-100 rounded  shadow-lg">
+    <h1 class="text-2xl font-semibold mb-4"></h1>
+    @if(error){
+        <h5 class="text-red-600">Error: {{error.message}}</h5>
+        <p class="font-bold mb-2">This is server side Error</p>
+        <p class ="mb-2">Please refresh the browser and clear the cache, or try after some time!</p>
+    }
+</div>

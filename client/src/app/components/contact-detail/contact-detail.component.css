@@ -1,0 +1,13 @@
+.custom-submit-button {
+    background-color: #22c55e !important; /* Tailwind's green-500 color */
+    color: white !important; 
+    border-color: #22c55e !important; 
+    display: flex; 
+    align-items: center;
+    border-radius: 5pt;
+  }
+  
+  .custom-submit-button:hover {
+    background-color: #16a34a !important; 
+    border-color: #16a34a !important;
+  }

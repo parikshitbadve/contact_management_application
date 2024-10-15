@@ -1,8 +1,8 @@
 <div class="m-4">
   <h2 class="m-2 text-2xl font-semibold text-blue-900">Contacts List</h2>
   <div class="m-5">
-    <div class="m-0 flex items-center justify-between">
-    <button mat-stroked-button class="custom-create-button">
+    <div class="m-0 flex items-center justify-start">
+    <button mat-stroked-button class="custom-create-button" routerLink="/contact">
       <mat-icon class="icon-white">add_box</mat-icon> New Contact
     </button>
   <mat-paginator
@@ -11,11 +11,22 @@
   [pageSize]="pageSize"
   [showFirstLastButtons]="true"
   [pageSizeOptions]="pageSizeOptions"
-  [pageIndex]="pageIndex"
+  [pageIndex]="pageIndex -1"
   aria-label="Select Page Number"
  style="background-color: transparent;"
   >
 </mat-paginator>
+<form #searchContact="ngForm"
+(ngSubmit)="onSearchContact()"
+class="relative flex items-center"
+>
+<input type="search"
+class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg" placeholder="Search contact" name="searchText" [(ngModel)]="searchText">
+<button mat-icon-button type="submit" class="absolute insent-y-0 right-5 top-2 flex items-center pl-3">
+<mat-icon class="icon-green">search</mat-icon>
+</button>
+</form>
+
 </div>
 
   <div class="my-0 p-2 relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -54,17 +65,24 @@
 
           <td class="px-0 py-4">
            
-            <button mat-stroked-button class="custom-edit-button">
+            <button mat-stroked-button class="custom-edit-button" routerLink="/contact/{{contact.id}}">
               <mat-icon class="icon-white">edit</mat-icon>Edit
             </button>
           </td>
           <td class="px-0 py-4">
-            <button mat-stroked-button class="custom-delete-button">
+            <button mat-stroked-button class="custom-delete-button" (click)="handleDeleteContact(contact.id)" >
               <mat-icon class="icon-white">delete</mat-icon>Delete
             </button>
           </td>
         </tr>
         }
+        @if(contacts.length===0){
+        <tr>
+          <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+            No records found
+          </td>
+        </tr>
+      }
       </tbody>
     </table>
   </div>

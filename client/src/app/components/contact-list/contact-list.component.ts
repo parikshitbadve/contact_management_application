@@ -15,9 +15,9 @@ import { RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from '../../shared/components/confirmation-modal/confirmation-modal.component';
 import { SnackbarService } from '../../core/services/snackbar.service';
-import { ContactFormComponent } from '../contact-form/contact-form.component';
 import { ContactDetailComponent } from '../contact-detail/contact-detail.component';
 import { CommonModule } from '@angular/common';
+import { emailValidator } from '../../shared/validators/input-validators';
 @Component({
   selector: 'app-contact-list',
   standalone: true,
@@ -59,7 +59,7 @@ export class ContactListComponent {
       id: [0], // Contact ID (0 for new contacts)
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email, emailValidator()]],
     });
   }
 

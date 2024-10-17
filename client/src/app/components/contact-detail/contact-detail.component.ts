@@ -42,7 +42,5 @@ export class ContactDetailComponent {
     this.formSubmitted.emit();
   }
 
-  ngOnInit(): void {
-    console.log(this.validationErrors, 'errors');
-  }
+  ngOnInit(): void {}
 }

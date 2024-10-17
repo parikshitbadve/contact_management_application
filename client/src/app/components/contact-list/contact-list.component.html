@@ -1,8 +1,8 @@
-<div class="m-4">
+<div *ngIf="isGridVisible" class="m-4">
   <h2 class="m-2 text-2xl font-semibold text-blue-900">Contacts List</h2>
   <div class="m-5">
     <div class="m-0 flex items-center justify-start">
-    <button mat-stroked-button class="custom-create-button" routerLink="/contact">
+    <button mat-stroked-button class="custom-create-button"  (click)="handleEditContact(0)">
       <mat-icon class="icon-white">add_box</mat-icon> New
     </button>
   <mat-paginator
@@ -53,19 +53,19 @@ class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg" placeho
           >
             {{ contact.id }}
           </th>
-          <td class="px-6 py-4">
+          <td class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
             {{ contact.firstName }}
           </td>
-          <td class="px-6 py-4">
+          <td class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
             {{ contact.lastName }}
           </td>
-          <td class="px-6 py-4">
+          <td class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-black">
             {{ contact.email }}
           </td>
 
           <td class="px-0 py-4">
            
-            <button mat-stroked-button class="custom-edit-button" routerLink="/contact/{{contact.id}}">
+            <button mat-stroked-button class="custom-edit-button" (click)="handleEditContact(contact.id)">
               <mat-icon class="icon-white">edit</mat-icon>Edit
             </button>
           </td>
@@ -88,3 +88,12 @@ class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg" placeho
   </div>
 </div>
 </div>
+
+<div *ngIf="isFormVisible">
+  <app-contact-detail
+    [addUpdateContact]="addUpdateContact"
+    [validationErrors]="validationErrors"
+    (formSubmitted)="handleSubmitContact()"
+  ></app-contact-detail>
+</div>
+

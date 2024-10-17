@@ -24,13 +24,13 @@ public class ContactService : IContactService
     {
         if (!File.Exists(filePath))
         {
-            Console.WriteLine("found file", "sfsff");
             Console.WriteLine(filePath);
             return new List<Contact>();
         }
 
         var json = await File.ReadAllTextAsync(filePath);
-        return JsonConvert.DeserializeObject<List<Contact>>(json) ?? new List<Contact>();
+        var contactList = JsonConvert.DeserializeObject<List<Contact>>(json) ?? new List<Contact>();
+        return contactList.OrderByDescending(c => c.Id);
     }
 
     public async Task<Contact> GetContactByIdAsync(int id)

@@ -113,3 +113,14 @@ The application is designed to scale with a large number of contacts by using:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 
+## UI Design
+
+![image](https://github.com/user-attachments/assets/2e97a2f7-2b37-4570-b663-5c70cdf84fed)
+
+![image](https://github.com/user-attachments/assets/808727f3-0fe3-4ade-8315-d7bc2f3574b2)
+
+![image](https://github.com/user-attachments/assets/d2ef7940-ef29-434f-a8d9-59fd540ae47d)
+
+
+
+
